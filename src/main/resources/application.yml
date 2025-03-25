@@ -16,6 +16,18 @@ server:
     servlet:
         context-path: /
 spring:
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: jaeyoung0560@gmail.com
+        password: cewwyjngexrkjgqr
+        properties:
+          mail:
+              smtp:
+                  auth: true
+                  timeout: 5000
+                  starttls:
+                      enable: true
     application:
         name: sboard
         version: ${version}

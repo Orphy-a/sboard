@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 
-    // 이름 유효성 검사
+    // 3.이름 유효성 검사
     const nameResult = document.getElementsByClassName('nameResult')[0];
 
     formRegister.name.addEventListener('focusout', function(){
@@ -95,30 +95,22 @@ document.addEventListener('DOMContentLoaded', function(){
             nameResult.innerText = '';
             isNameOk = true;
         }
-
-
     });
 
-
-    // 별명 중복체크 (+ 유효성 검사)
+    // 4.별명 유효성 검사(중복체크 포함)
     const btnCheckNick = document.getElementById('btnCheckNick');
     const nickResult = document.getElementsByClassName('nickResult')[0];
-
-
 
     btnCheckNick.onclick = async function(){
 
         const value = formRegister.nick.value;
 
-        // 유효성 검사
         if(!value.match(reNick)){
             nickResult.innerText = '유효하지 않은 별명 입니다.';
             nickResult.style.color = 'red';
             isNickOk = false;
             return;
         }
-
-
 
         try {
             const response = await fetch(`/user/nick/${value}`);
@@ -137,9 +129,9 @@ document.addEventListener('DOMContentLoaded', function(){
         }catch(err){
             console.log(err);
         }
-    }
+    };
 
-    // 이메일 인증처리 (+ 유효성 검사)
+    // 5. 이메일 유효성 검사(중복/인증처리 포함)
     const btnSendEmail = document.getElementById('btnSendEmail');
     const emailResult = document.querySelector('.emailResult');
     const auth = document.querySelector('.auth');
@@ -154,10 +146,8 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
-
-        // 유효성 검사
         if(!value.match(reEmail)){
-            emailResult.innerText = '이메일이 유효하지 않습니다.'
+            emailResult.innerText = '이메일이 유효하지 않습니다.';
             emailResult.style.color = 'red';
             isEmailOk = false;
             return;
@@ -170,11 +160,12 @@ document.addEventListener('DOMContentLoaded', function(){
         if(data.count > 0){
             emailResult.innerText = '이미 사용중인 이메일 입니다.';
             emailResult.style.color = 'red';
+            isEmailOk = false;
         }else {
             // 인증번호 입력 필드 출력
             auth.style.display = 'block';
         }
-    }
+    };
 
     const btnAuthEmail = document.getElementById('btnAuthEmail');
 
@@ -187,17 +178,17 @@ document.addEventListener('DOMContentLoaded', function(){
             "authCode": value
         };
 
-
         // 서버 전송
         const response = await fetch('/user/email/auth', {
             method: 'POST',
-            body: json.stringify(jsonData)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(jsonData)
         });
 
         const data = await response.json();
         console.log(data);
 
-        if(data.result > 0){
+        if(data > 0){
             emailResult.innerText = '이메일이 인증 되었습니다.';
             emailResult.style.color = 'green';
             isEmailOk = true;
@@ -207,84 +198,71 @@ document.addEventListener('DOMContentLoaded', function(){
             isEmailOk = false;
         }
 
-    }
+    } // btnAuthEmail.onclick end
 
-    // 휴대폰 유효성 검사(중복체크 포함)
+    // 6.휴대폰 유효성 검사(중복체크 포함)
     const hpResult = document.getElementsByClassName('hpResult')[0];
-
 
     formRegister.hp.addEventListener('focusout', async function(){
 
         const value = this.value;
 
-        if(value.match(reHp)){
-
+        if(!value.match(reHp)){
             hpResult.innerText = '휴대폰번호가 유효하지 않습니다.(- 포함)';
             hpResult.style.color = 'red';
             isHpOk = false;
             return;
         }
 
-        //휴대폰 중복체크
-        const response = await fetch(`/user/hp/${vaule}`);
-        const data = response.json();
+        // 휴대폰 중복체크
+        const response = await fetch(`/user/hp/${value}`);
+        const data = await response.json();
 
-        if(data.count>0){ // 중복인 경우
-
-            hpResult.innerText = '이미 사용중인 휴대폰 번호입니다.';
+        if(data.count > 0){
+            hpResult.innerText = '이미 사용중인 휴대폰번호 입니다.';
             hpResult.style.color = 'red';
             isHpOk = false;
-
         }else{
-            hpResult.innerText = '사용 가능한 휴대폰 번호입니다.';
+            hpResult.innerText = '사용 가능한 휴대폰번호 입니다.';
             hpResult.style.color = 'green';
             isHpOk = true;
-
         }
-
-
     });
 
-
-
     // 최종 폼 전송 이벤트
-    formRegister.onsubmit = function(){
+    formRegister.onsubmit = function(e){
+        console.log("form submit!!!")
 
-        // 아이디 유효성 검사 결과
+        // 1) 아이디 유효성 검사 결과
         if(!isUidOk){
             return false; // 폼 전송 취소
         }
 
-
-        // 비밀번호 유효성 검사 결과
+        // 2) 비밀번호 유효성 검사 결과
         if(!isPassOk){
-            return false; // 폼 전송 취소
+            return false;
         }
 
-
-        // 이름 유효성 검사 결과
+        // 3) 이름 유효성 검사 결과
         if(!isNameOk){
-            return false; // 폼 전송 취소
+            return false;
         }
 
-        // 별명 유효성 검사 결과
+        // 4) 별명 유효성 검사 결과
         if(!isNickOk){
-            return false; // 폼 전송 취소
+            return false;
         }
 
-        // // 이메일 유효성 검사 결과
-        // if(!isEmailOk){
-        //     return false; // 폼 전송 취소
-        // }
+        // 5) 이메일 유효성 검사 결과
+        if(!isEmailOk){
+            return false;
+        }
 
-        
-        // // 휴대폰 유효성 검사 결과
-        // if(!isHpOk){
-        //     return false; // 폼 전송 취소
-        // }
-
+        // 6) 휴대폰 유효성 검사 결과
+        if(!isHpOk){
+            return false;
+        }
 
         return true; // 폼 전송 시작
-    } // 최종 폼 전송 이벤트 종료
-
+    }; // 최종 폼 전송 이벤트 끝
 });

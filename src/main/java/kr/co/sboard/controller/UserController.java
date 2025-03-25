@@ -1,6 +1,7 @@
 package kr.co.sboard.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kr.co.sboard.config.AppInfo;
 import kr.co.sboard.dto.TermsDTO;
 import kr.co.sboard.dto.UserDTO;
@@ -14,19 +15,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
+@Controller
 public class UserController {
 
     private final TermsService termsService;
     private final UserService userService;
-
-    private final AppInfo appInfo;
 
     @GetMapping("/user/info")
     public String info(){
@@ -36,14 +36,11 @@ public class UserController {
     @GetMapping("/user/login")
     public String login(){
 
-
-
         return "/user/login";
     }
 
     @GetMapping("/user/register")
     public String register(){
-
         return "/user/register";
     }
 
@@ -56,6 +53,7 @@ public class UserController {
         // 서비스 호출
         userService.register(userDTO);
 
+        // 리다이렉트
         return "redirect:/user/login";
     }
 
@@ -63,31 +61,43 @@ public class UserController {
     public String terms(Model model){
 
         TermsDTO termsDTO = termsService.terms();
-
-        model.addAttribute("termsDTO", termsDTO);
+        model.addAttribute(termsDTO);
 
         return "/user/terms";
     }
 
-    @GetMapping("/user/{type}/{value}")
-    public ResponseEntity<Map<String, Long>> user(@PathVariable("type") String type, @PathVariable("value") String value){
 
-        log.info("type : " + type);
-        log.info("value : " + value);
+    @GetMapping("/user/{type}/{value}")
+    public ResponseEntity user(@PathVariable("type") String type, @PathVariable("value") String value){
+        log.info("type : " + type + ", value : " + value);
 
         // 서비스 호출
         long count = userService.checkUser(type, value);
-
 
         // JSON 생성
         Map<String, Long> resultMap = new HashMap<>();
         resultMap.put("count", count);
 
-
-
+        // JSON 반환
         return ResponseEntity.ok().body(resultMap);
-
     }
+
+
+    @PostMapping("/user/email/auth")
+    public ResponseEntity<Boolean> emailAuth(@RequestBody Map<String,String> map, HttpSession session){ // JSON 단일 문자열값이 직접 String으로 매핑되지 않기 때문에 JSON과 호환되는 Map 타입으로 JSON 수신
+
+        String authCode = map.get("authCode");
+        log.info("authCode : {}", authCode);
+
+        String sessAuthCode = (String) session.getAttribute("authCode");
+        log.info("sessAuthCode : {}", sessAuthCode);
+
+        if(authCode.equals(sessAuthCode)){
+            return ResponseEntity.ok().body(true);
+        }
+        return ResponseEntity.ok().body(false);
+    }
+
 
 
 }
