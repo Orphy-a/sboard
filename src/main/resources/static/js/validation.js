@@ -272,20 +272,18 @@ document.addEventListener('DOMContentLoaded', function(){
             return false; // 폼 전송 취소
         }
 
-        // 이메일 유효성 검사 결과
-        if(!isEmailOk){
-            return false; // 폼 전송 취소
-        }
+        // // 이메일 유효성 검사 결과
+        // if(!isEmailOk){
+        //     return false; // 폼 전송 취소
+        // }
 
-        // 휴대폰 유효성 검사 결과
-        if(!isHpOk){
-            return false; // 폼 전송 취소
-        }
+        // // 휴대폰 유효성 검사 결과
+        // if(!isHpOk){
+        //     return false; // 폼 전송 취소
+        // }
 
 
         return true; // 폼 전송 시작
     } // 최종 폼 전송 이벤트 종료
-
-
 
 });
