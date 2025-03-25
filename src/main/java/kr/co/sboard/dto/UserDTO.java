@@ -26,21 +26,5 @@ public class UserDTO {
     private String regDate;
     private String leaveDate;
 
-    public User toEntity(){
-        return User.builder()
-                .uid(uid)
-                .pass(pass)
-                .name(name)
-                .nick(nick)
-                .email(email)
-                .hp(hp)
-                .role(role)
-                .zip(zip)
-                .addr1(addr1)
-                .addr2(addr2)
-                .regip(regip)
-                .regDate(regDate)
-                .leaveDate(leaveDate)
-                .build();
-    }
+
 }

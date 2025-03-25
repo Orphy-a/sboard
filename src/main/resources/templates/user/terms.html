@@ -5,6 +5,27 @@
     <title>약관</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+
+        const btnNext = document.getElementsByClassName('btnNext')[0];
+        const terms = document.getElementsByTagName('input')[0];
+        const privacy = document.getElementsByTagName('input')[1];
+
+        btnNext.onclick = function(){
+
+            if(terms.checked && privacy.checked){
+                return true;
+            }else{
+                alert('동의체크를 해야 합니다.');
+                return false;
+            }
+        }
+    });
+
+
+
+</script>
 <body>
     <div id="wrapper">
         <th:block th:include="/user/_header.html"></th:block>

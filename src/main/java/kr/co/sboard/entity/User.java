@@ -1,11 +1,12 @@
 package kr.co.sboard.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import kr.co.sboard.dto.UserDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.lang.Nullable;
+
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -13,7 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User {
 
     @Id
@@ -23,7 +24,10 @@ public class User {
     private String nick;
     private String email;
     private String hp;
+
+    @Column(nullable = false)
     private String role;
+
     private String zip;
     private String addr1;
     private String addr2;
@@ -31,28 +35,20 @@ public class User {
 
 
     @CreationTimestamp // NOW()
-    private String regDate;
+    private LocalDateTime regDate;
 
     private String leaveDate;
 
 
-    public UserDTO toDTO(){
-        return UserDTO.builder()
-                .uid(uid)
-                .pass(pass)
-                .name(name)
-                .nick(nick)
-                .email(email)
-                .hp(hp)
-                .role(role)
-                .zip(zip)
-                .addr1(addr1)
-                .addr2(addr2)
-                .regip(regip)
-                .regDate(regDate)
-                .leaveDate(leaveDate)
-                .build();
+    @PrePersist
+    public void prePersist(){
+
+        if(this.role == null){
+            this.role = "USER";
+        }
+
     }
+
 
 
 }
