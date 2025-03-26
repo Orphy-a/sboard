@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers("/staff/**").hasAnyRole("ADMIN", "MANAGER", "STAFF")
+                .requestMatchers("/article/**").authenticated()
+                .requestMatchers("/user/**").permitAll()
                 .anyRequest().permitAll());
 
         // 기타 보안 설정

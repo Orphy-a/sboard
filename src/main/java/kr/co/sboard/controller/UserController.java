@@ -29,7 +29,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/info")
-    public String info(){
+    public String info() {
         return "/user/info";
     }
 
