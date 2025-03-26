@@ -9,8 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Entity
 @Builder
+@Entity
 @Table(name = "Terms")
 public class Terms {
 
@@ -18,7 +18,5 @@ public class Terms {
     private int no;
     private String terms;
     private String privacy;
-
-
 
 }

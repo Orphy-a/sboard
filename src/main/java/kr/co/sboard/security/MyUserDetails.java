@@ -19,17 +19,14 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         // 권한 목록 생성
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole())); // ROLE_ 접두어 사용 (문법)
-
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole())); // 계정 권한 앞에 접두어 ROLE_ 붙여야 됨
         return authorities;
     }
 
     @Override
     public String getPassword() {
-
         return user.getPass();
     }
 
@@ -40,7 +37,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        // 계정 만료 여부 (true : 만료 안됨, false : 만료됨)
+        // 계정 만료 여부(true : 만료안됨, false : 만료됨)
         return true;
     }
 
@@ -58,8 +55,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        // 계정 활성화 여부
         return true;
     }
-
-
 }

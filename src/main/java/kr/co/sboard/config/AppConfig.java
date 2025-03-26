@@ -1,19 +1,16 @@
 package kr.co.sboard.config;
 
-import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Data
 @Configuration
 public class AppConfig {
 
     @Bean
     public AppInfo appInfo(){
-
         return new AppInfo();
     }
 
@@ -21,12 +18,15 @@ public class AppConfig {
     public ModelMapper modelMapper(){
 
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration()
+        modelMapper
+                .getConfiguration()
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
                 .setMatchingStrategy(MatchingStrategies.STRICT)
                 .setFieldMatchingEnabled(true);
 
+
         return modelMapper;
     }
+
 
 }

@@ -19,26 +19,29 @@ spring:
     servlet:
         multipart:
             location: uploads
+            max-file-size: 10MB
+
     mail:
         host: smtp.gmail.com
         port: 587
-        username: jaeyoung0560@gmail.com
-        password: cewwyjngexrkjgqr
+        username: chhak0503@gmail.com
+        password: admqtoctsjkywwcw
         properties:
-          mail:
-              smtp:
-                  auth: true
-                  timeout: 5000
-                  starttls:
-                      enable: true
+            mail:
+                smtp:
+                    auth: true
+                    timeout: 5000
+                    starttls:
+                        enable: true
+
     application:
         name: sboard
         version: ${version}
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://54.180.124.157:3306/board
-        username: board
         password: Qwerty123@
+        url: jdbc:mysql://13.125.98.52:3306/board
+        username: board
     devtools:
         livereload:
             enabled: true

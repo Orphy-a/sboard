@@ -1,17 +1,20 @@
 package kr.co.sboard.dto;
 
-import kr.co.sboard.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Data
-@Builder
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class UserDTO {
-
     private String uid;
     private String pass;
     private String name;
@@ -25,6 +28,4 @@ public class UserDTO {
     private String regip;
     private String regDate;
     private String leaveDate;
-
-
 }

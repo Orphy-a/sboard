@@ -3,14 +3,13 @@ package kr.co.sboard.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Builder
 @Entity
 @Table(name = "Article")
@@ -19,7 +18,10 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int no;
+
+    @Column(nullable = false)
     private String cate;
+
     private String title;
     private String content;
     private int comment;
@@ -31,11 +33,14 @@ public class Article {
     @CreationTimestamp
     private LocalDateTime wdate;
 
+
+
+
     @PrePersist
     public void prePersist(){
+        // 엔티티 기본 속성 값 초기화
         if(this.cate == null){
             this.cate = "free";
         }
     }
-
 }

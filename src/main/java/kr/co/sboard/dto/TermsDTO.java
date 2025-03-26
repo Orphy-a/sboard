@@ -1,18 +1,20 @@
 package kr.co.sboard.dto;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Table;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class TermsDTO {
 
     private int no;
     private String terms;
     private String privacy;
+
 }

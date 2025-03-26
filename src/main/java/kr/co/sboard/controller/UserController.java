@@ -9,6 +9,7 @@ import kr.co.sboard.service.TermsService;
 import kr.co.sboard.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,12 +30,15 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/info")
-    public String info() {
+    public String info(){
         return "/user/info";
     }
 
     @GetMapping("/user/login")
     public String login(){
+
+
+
 
         return "/user/login";
     }
@@ -93,11 +97,12 @@ public class UserController {
         log.info("sessAuthCode : {}", sessAuthCode);
 
         if(authCode.equals(sessAuthCode)){
-            return ResponseEntity.ok().body(true);
+            return ResponseEntity
+                    .ok()
+                    .body(true);
         }
-        return ResponseEntity.ok().body(false);
+        return ResponseEntity
+                .ok()
+                .body(false);
     }
-
-
-
 }

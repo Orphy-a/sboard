@@ -7,15 +7,15 @@
 </head>
 <body>
     <div id="wrapper">
-        <th:block th:include="/article/_header.html"></th:block>
+        <th:block th:include="/article/_header.html"/>
         <main id="article">
             <section class="write">
                 <nav>
                     <h1>글쓰기</h1>
                 </nav>
                 <form th:action="@{/article/write}" method="post" enctype="multipart/form-data">
-                    <input type="text" name="writer" th:value="${#authentication.principal.user.uid}">
-                    <table border="0">
+                    <input type="hidden" name="writer" th:value="${#authentication.principal.user.uid}"/>
+                    <table border="0">                        
                         <tr>
                             <th>제목</th>
                             <td><input type="text" name="title" placeholder="제목을 입력하세요."/></td>
@@ -46,7 +46,7 @@
 
             </section>
         </main>
-        <th:block th:include="/article/_footer.html"></th:block>
+        <th:block th:include="/article/_footer.html"/>
     </div>    
 </body>
 </html>

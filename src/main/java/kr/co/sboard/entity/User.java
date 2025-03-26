@@ -1,17 +1,15 @@
 package kr.co.sboard.entity;
 
 import jakarta.persistence.*;
-import kr.co.sboard.dto.UserDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Builder
 @Entity
 @Table(name = "User")
@@ -33,22 +31,16 @@ public class User {
     private String addr2;
     private String regip;
 
-
-    @CreationTimestamp // NOW()
+    @CreationTimestamp
     private LocalDateTime regDate;
 
     private String leaveDate;
 
-
     @PrePersist
     public void prePersist(){
-
         if(this.role == null){
             this.role = "USER";
         }
-
     }
-
-
 
 }
